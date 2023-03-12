@@ -1,10 +1,25 @@
 import Head from 'next/head'
-import { Inter } from 'next/font/google'
 import Link from 'next/link'
+import { PRODUCT_QUERY } from '@/lib/query'
+import { useQuery } from 'urql'
+import Product from "../components/Product";
+import { Gallery } from "../styles/Gallery";
 
-const inter = Inter({ subsets: ['latin'] })
+
 
 export default function Home() {
+//fetch products from strapi
+  const [results] = useQuery({query: PRODUCT_QUERY})
+  console.log(results)
+  const {data, fetching, error} = results;
+
+    //check for the data coming in
+    if(fetching) return <p>Loading...</p>
+    if(error) return <p>Oh no...{error.message}</p>
+    console.log(data);
+    const products = data.products.data;
+
+
   return (
     <>
       <Head>
@@ -14,9 +29,13 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-       <h1>Hi</h1>
-       <Link href={"/about"}>About</Link>
+        <Gallery>
+          {/* {fetching && <Skeleton />} */}
+          {products.map((product) => (
+            <Product key={product.attributes.slug} product={product} />
+          ))}
+        </Gallery>
       </main>
     </>
-  )
+  );
 }
