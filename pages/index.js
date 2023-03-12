@@ -1,5 +1,4 @@
 import Head from 'next/head'
-import Link from 'next/link'
 import { PRODUCT_QUERY } from '@/lib/query'
 import { useQuery } from 'urql'
 import Product from "../components/Product";
