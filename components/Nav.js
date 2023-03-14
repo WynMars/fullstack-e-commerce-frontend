@@ -5,7 +5,7 @@ import { NavStyles, NavItems } from "../styles/NavStyles";
 export default function Nav() {
   return (
     <NavStyles>
-      <Link href="/">Styled.</Link>
+      <Link href="/">What's the Weather Today?</Link>
       <NavItems>
         <div>
           <FiShoppingBag />
