@@ -12,7 +12,7 @@ import { useStateContext } from "../../lib/context";
 
 export default function ProductDetails() {
   //Use state
-  const { increaseQty, decreaseQty, qty } = useStateContext();
+  const { increaseQty, decreaseQty, qty, onAdd, cartItems } = useStateContext();
   //Fetch slug
   const { query } = useRouter();
   //Fetch Graphql data
@@ -26,12 +26,15 @@ export default function ProductDetails() {
   //Extract Data
   const { title, description, image } = data.products.data[0].attributes;
 
+
   return (
     <DetailsStyle>
       <img src={image.data.attributes.formats.small.url} alt={title} />
 
       <ProductInfo>
-        <h2>{title}</h2>
+        <h2>
+          {title}
+        </h2>
         <p>{description}</p>
 
         <Quantity>
@@ -45,7 +48,13 @@ export default function ProductDetails() {
           </button>
         </Quantity>
 
-        <Buy>Add to cart</Buy>
+        <Buy
+          onClick={() => {
+            onAdd(data.products.data[0].attributes, qty);
+          }}
+        >
+          Add to cart
+        </Buy>
       </ProductInfo>
     </DetailsStyle>
   );
